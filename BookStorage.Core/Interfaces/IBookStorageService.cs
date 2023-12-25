@@ -6,8 +6,8 @@ namespace BookStorage.Core.Interfaces
     {
         public List<BookResponse> GetAllBook();
         public BookResponse GetBook(Guid id);
-        public BookResponse AddBook(BookReqest book);
-        public BookResponse UpdateBook(Guid id, BookReqest book);
+        public BookResponse AddBook(BookRequest book);
+        public BookResponse UpdateBook(Guid id, BookRequest book);
         public void DeleteBook(Guid id);
     }
 }
