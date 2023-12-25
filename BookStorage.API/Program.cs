@@ -1,4 +1,12 @@
+using BookStorage.Data;
+using Microsoft.EntityFrameworkCore;
+
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddPooledDbContextFactory<ApplicationDbContext>(options =>{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("BookStorage.Data"));
+});
 
 // Add services to the container.
 
