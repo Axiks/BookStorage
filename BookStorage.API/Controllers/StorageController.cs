@@ -24,7 +24,7 @@ namespace BookStorage.API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<BookResponse>))]
         public IActionResult Get()
         {
-            var result = _bookStorageService.GetAllBook();
+            var result = _bookStorageService.GetAllBookAsync();
             return Ok(result);
         }
 
@@ -33,25 +33,25 @@ namespace BookStorage.API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(BookResponse))]
         public IActionResult Get(Guid id)
         {
-            var result = _bookStorageService.GetBook(id);
+            var result = _bookStorageService.GetBookAsync(id);
             return Ok(result);
         }
 
         // POST api/<StorageController>
         [HttpPost]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(BookResponse))]
-        public IActionResult Post(BookRequest book)
+        public IActionResult Post(CreateBookRequest book)
         {
-            var result = _bookStorageService.AddBook(book);
+            var result = _bookStorageService.AddBookAsync(book);
             return Ok(result);
         }
 
         // PUT api/<StorageController>/5
         [HttpPut("{id}")]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(BookResponse))]
-        public IActionResult Put(Guid id, BookRequest book)
+        public IActionResult Put(Guid id, CreateBookRequest book)
         {
-            var result = _bookStorageService.UpdateBook(id, book);
+            var result = _bookStorageService.UpdateBookAsync(id, book);
             return Ok(result);
         }
 
@@ -60,7 +60,7 @@ namespace BookStorage.API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK)]
         public IActionResult Delete(Guid id)
         {
-            _bookStorageService.DeleteBook(id);
+            _bookStorageService.DeleteBookAsync(id);
             return Ok();
         }
     }

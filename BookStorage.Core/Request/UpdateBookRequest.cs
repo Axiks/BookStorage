@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BookStorage.Core.Request
 {
-    public class BookRequest
+    public class UpdateBookRequest
     {
-        public required string Name { get; set; }
-        public string Description { get; set; } = string.Empty;
+        public string? Name { get; set; }
+        public string? Description { get; set; }
     }
 }
