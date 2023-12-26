@@ -1,7 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
 import BookCard from './BookCard';
 import Stack from 'react-bootstrap/Stack';
 

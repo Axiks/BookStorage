@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import BookUpdate from './BookUpdate';
+import BookUpdate from './Modal/BookUpdate';
 
 export default class BookCard extends React.Component {
       constructor(props){
