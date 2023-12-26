@@ -22,45 +22,45 @@ namespace BookStorage.API.Controllers
         // GET: api/<StorageController>
         [HttpGet]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<BookResponse>))]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var result = _bookStorageService.GetAllBookAsync();
+            var result = await _bookStorageService.GetAllBookAsync();
             return Ok(result);
         }
 
         // GET api/<StorageController>/5
         [HttpGet("{id}")]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(BookResponse))]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var result = _bookStorageService.GetBookAsync(id);
+            var result = await _bookStorageService.GetBookAsync(id);
             return Ok(result);
         }
 
         // POST api/<StorageController>
         [HttpPost]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(BookResponse))]
-        public IActionResult Post(CreateBookRequest book)
+        public async Task<IActionResult> Post(CreateBookRequest book)
         {
-            var result = _bookStorageService.AddBookAsync(book);
+            var result = await _bookStorageService.AddBookAsync(book);
             return Ok(result);
         }
 
         // PUT api/<StorageController>/5
         [HttpPut("{id}")]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(BookResponse))]
-        public IActionResult Put(Guid id, CreateBookRequest book)
+        public async Task<IActionResult> Put(Guid id, UpdateBookRequest book)
         {
-            var result = _bookStorageService.UpdateBookAsync(id, book);
+            var result = await _bookStorageService.UpdateBookAsync(id, book);
             return Ok(result);
         }
 
         // DELETE api/<StorageController>/5
         [HttpDelete("{id}")]
         [SwaggerResponse((int)HttpStatusCode.OK)]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            _bookStorageService.DeleteBookAsync(id);
+            await _bookStorageService.DeleteBookAsync(id);
             return Ok();
         }
     }

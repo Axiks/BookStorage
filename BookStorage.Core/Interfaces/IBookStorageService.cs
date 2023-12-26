@@ -8,6 +8,6 @@ namespace BookStorage.Core.Interfaces
         public Task<BookResponse> GetBookAsync(Guid id);
         public Task<BookResponse> AddBookAsync(CreateBookRequest book);
         public Task<BookResponse> UpdateBookAsync(Guid id, UpdateBookRequest book);
-        public void DeleteBookAsync(Guid id);
+        public Task DeleteBookAsync(Guid id);
     }
 }

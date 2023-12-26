@@ -23,7 +23,7 @@ namespace BookStorage.Core.Services
             return SimpleMapping.MapBookEntityToResponse(item);
         }
 
-        public async void DeleteBookAsync(Guid id)
+        public async Task DeleteBookAsync(Guid id)
         {
             var book = await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == id);
             _dbContext.Remove(book);

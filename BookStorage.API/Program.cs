@@ -6,10 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddPooledDbContextFactory<ApplicationDbContext>(
+builder.Services.AddDbContext<ApplicationDbContext>(
     options =>{
-        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
-        b => b.MigrationsAssembly("BookStorage.Data"));
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 // Add services to the container.
@@ -23,12 +22,6 @@ builder.Services.AddScoped<IBookStorageService, BookStorageService>();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.Migrate();
-}
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -39,5 +32,15 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    using (var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>())
+    {
+        await dbContext.Database.EnsureCreatedAsync();
+        await dbContext.Database.MigrateAsync();
+    }
+
+}
 
 app.Run();
