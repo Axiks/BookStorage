@@ -7,6 +7,8 @@ networks:
 services:
   bookstorage.api:
     image: ${DOCKER_REGISTRY-}bookstorageapi
+    ports:
+        - "85:8080"
     depends_on:
         - "bookstorage.postgres_db"
     build:
@@ -17,6 +19,7 @@ services:
 
   bookstorage.postgres_db:
     image: postgres:latest
+    restart: always
     ports:
       - "5436:5432"
     volumes: 
@@ -25,6 +28,18 @@ services:
         POSTGRES_DB: "${DB_NAME}"
         POSTGRES_USER: "${DB_USERNAME}"
         POSTGRES_PASSWORD: "${DB_PASSWORD}"
+    networks:
+      - bookstorage-dev-net
+  
+  bookstorage.react-spa:
+    depends_on:
+        - "bookstorage.api"
+    build:
+      context: .
+      dockerfile: book-storage-spa/Dockerfile
+    ports:
+        - "2092:80"
+    restart: always
     networks:
       - bookstorage-dev-net
 
