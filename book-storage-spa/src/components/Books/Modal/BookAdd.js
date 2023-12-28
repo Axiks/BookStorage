@@ -35,17 +35,8 @@ export default class BookAdd extends React.Component {
         }
     
         this.handleSubmit = event => {
-            event.preventDefault();
-    
-            axios.post(`http://localhost:85/api/Storage`, { 
-                name: this.state.name,
-                description: this.state.description
-            })
-            .then(res => {
-                console.log(res);
-                console.log(res.data);
-                this.handleClose()
-            })
+                this.props.onAdd(this.state.name, this.state.description);
+                this.handleClose();
         }
     
         return (

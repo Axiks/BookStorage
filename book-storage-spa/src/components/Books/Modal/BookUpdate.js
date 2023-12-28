@@ -34,19 +34,10 @@ export default class BookUpdate extends React.Component {
             this.setState({ description: event.target.value });
         }
 
-        this.handleSubmit = event => {
-            event.preventDefault();
-            
-            axios.put(`http://localhost:85/api/storage/${this.state.id}`, { 
-              name: this.state.name,
-              description: this.state.description
-             })
-            .then(res => {
-              console.log(res);
-              console.log(res.data);
-              this.handleClose();
-            })
-          }
+          this.handleUpdateBook = (bookId, name, description) => {
+            this.props.onUpdate(bookId, name, description)       
+            this.handleClose();
+        }
     
         return (
         <>
@@ -86,7 +77,7 @@ export default class BookUpdate extends React.Component {
                     <Button variant="secondary" onClick={this.handleClose}>
                     Close
                     </Button>
-                    <Button variant="primary" onClick={this.handleSubmit}>
+                    <Button variant="primary" onClick={() => this.handleUpdateBook(this.state.id, this.state.name, this.state.description)}>
                     Update
                     </Button>
                 </Modal.Footer>
