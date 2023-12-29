@@ -31,6 +31,7 @@ namespace BookStorage.API.Controllers
         // GET api/<StorageController>/5
         [HttpGet("{id}")]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(BookResponse))]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> Get(Guid id)
         {
             var result = await _bookStorageService.GetBookAsync(id);
@@ -40,6 +41,7 @@ namespace BookStorage.API.Controllers
         // POST api/<StorageController>
         [HttpPost]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(BookResponse))]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> Post(CreateBookRequest book)
         {
             var result = await _bookStorageService.AddBookAsync(book);
@@ -49,6 +51,7 @@ namespace BookStorage.API.Controllers
         // PUT api/<StorageController>/5
         [HttpPut("{id}")]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(BookResponse))]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> Put(Guid id, UpdateBookRequest book)
         {
             var result = await _bookStorageService.UpdateBookAsync(id, book);
@@ -58,6 +61,7 @@ namespace BookStorage.API.Controllers
         // DELETE api/<StorageController>/5
         [HttpDelete("{id}")]
         [SwaggerResponse((int)HttpStatusCode.OK)]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _bookStorageService.DeleteBookAsync(id);

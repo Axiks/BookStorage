@@ -35,6 +35,13 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    app.UseExceptionHandler("/error-development");
+}
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/error");
 }
 
 app.UseCors("AllowAll");

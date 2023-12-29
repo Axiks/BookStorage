@@ -25,8 +25,9 @@ namespace BookStorage.Core.Services
 
         public async Task DeleteBookAsync(Guid id)
         {
-            var book = await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == id);
-            _dbContext.Remove(book);
+            var currentBook = await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == id);
+            if (currentBook == null) throw new MyApiNotFoundException("A book with such an ID does not exist.");
+            _dbContext.Remove(currentBook);
             _dbContext.SaveChanges();
         }
 
@@ -39,6 +40,7 @@ namespace BookStorage.Core.Services
         public async Task<BookResponse> GetBookAsync(Guid id)
         {
             var currentBook = await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == id);
+            if (currentBook == null) throw new MyApiNotFoundException("A book with such an ID does not exist.");
             var response = SimpleMapping.MapBookEntityToResponse(currentBook);
             return response;
         }
@@ -46,6 +48,7 @@ namespace BookStorage.Core.Services
         public async Task<BookResponse> UpdateBookAsync(Guid id, UpdateBookRequest book)
         {
             var currentBook = await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == id);
+            if (currentBook == null) throw new MyApiNotFoundException("A book with such an ID does not exist.");
             if(book.Name != null) currentBook.Name = book.Name;
             if(book.Description != null) currentBook.Description = book.Description;
             _dbContext.SaveChanges();
