@@ -1,50 +1,42 @@
-import React from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-export default class BookAdd extends React.Component {
-    constructor(){
-        super();
+export default function BookAdd(props) {
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [show, setShow] = useState(false);
 
-        this.state = {
-            name: '',
-            description: '',
-            show: false
-        }
+    function handleClose(){
+        console.log('handleClose');
+        setShow(false);
     }
 
-    render() {
-        this.handleClose = event => {
-            console.log('handleClose');
-            this.setState({ show: false });
-        }
-    
-        this.handleShow = event => {
-            console.log('handleShow');
-            this.setState({ show: true });
-        }
+    function handleShow(){
+        console.log('handleShow');
+        setShow(true);
+    }
 
-        this.handleChangeName = event => {
-            this.setState({ name: event.target.value });
-        }
-    
-        this.handleChangeDescription = event => {
-            this.setState({ description: event.target.value });
-        }
-    
-        this.handleSubmit = event => {
-                this.props.onAdd(this.state.name, this.state.description);
-                this.handleClose();
-        }
-    
-        return (
+    const handleChangeName = (event) => {
+        setName(event.target.value);
+    }
+
+    const handleChangeDescription = (event) => {
+        setDescription(event.target.value);
+    }
+
+    function handleSubmit() {
+            props.onAdd(name, description);
+            handleClose();
+    }
+
+    return (
         <>
-            <Button variant="primary" onClick={this.handleShow}>
+            <Button variant="primary" onClick={handleShow}>
                 Add book
             </Button>
-            <Modal show={this.state.show} onHide={this.handleClose}>
+            <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add book</Modal.Title>
                 </Modal.Header>
@@ -53,7 +45,7 @@ export default class BookAdd extends React.Component {
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         <Form.Label>Name</Form.Label>
                         <Form.Control
-                        onChange={this.handleChangeName}
+                        onChange={handleChangeName}
                         placeholder="The title of the book"
                         autoFocus
                         />
@@ -64,7 +56,7 @@ export default class BookAdd extends React.Component {
                     >
                         <Form.Label>Description</Form.Label>
                         <Form.Control
-                        onChange={this.handleChangeDescription}
+                        onChange={handleChangeDescription}
                         as="textarea" rows={3}
                         placeholder="Describe the book (optional)"
                         />
@@ -72,15 +64,14 @@ export default class BookAdd extends React.Component {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={this.handleClose}>
+                    <Button variant="secondary" onClick={handleClose}>
                     Close
                     </Button>
-                    <Button variant="primary" onClick={this.handleSubmit}>
+                    <Button variant="primary" onClick={handleSubmit}>
                     Add
                     </Button>
                 </Modal.Footer>
             </Modal>
         </>
         )
-    }
 }

@@ -1,50 +1,42 @@
-import React from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-export default class BookUpdate extends React.Component {
-    constructor(props){
-        super(props);
+export default function BookUpdate(props) {
+    const [name, setName] = useState(props.name);
+    const [description, setDescription] = useState(props.description);
+    const [show, setShow] = useState(false);
 
-        this.state = {
-            name: props.name,
-            description: props.description,
-            id: props.id
-        }
+    function handleClose(){
+        console.log('handleClose');
+        setShow(false);
     }
 
-    render() {
-        this.handleClose = event => {
-            console.log('handleClose');
-            this.setState({ show: false });
-        }
-    
-        this.handleShow = event => {
-            console.log('handleShow');
-            this.setState({ show: true });
-        }
+    function handleShow(){
+        console.log('handleShow');
+        setShow(true);
+    }
 
-        this.handleChangeName = event => {
-            this.setState({ name: event.target.value });
-        }
-    
-        this.handleChangeDescription = event => {
-            this.setState({ description: event.target.value });
-        }
+    const handleChangeName = (event) => {
+        setName(event.target.value);
+    }
 
-          this.handleUpdateBook = (bookId, name, description) => {
-            this.props.onUpdate(bookId, name, description)       
-            this.handleClose();
-        }
-    
-        return (
+    const handleChangeDescription = (event) => {
+        setDescription(event.target.value);
+    }
+
+    function handleUpdateBook(){
+        props.onUpdate(props.id, name, description)       
+        handleClose();
+    }
+
+    return (
         <>
-            <Button className="m-1" variant="light" onClick={this.handleShow}>
+            <Button className="m-1" variant="light" onClick={handleShow}>
                 Update
             </Button>
-            <Modal show={this.state.show} onHide={this.handleClose}>
+            <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Update book</Modal.Title>
                 </Modal.Header>
@@ -53,9 +45,9 @@ export default class BookUpdate extends React.Component {
                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                         <Form.Label>Name</Form.Label>
                         <Form.Control
-                        onChange={this.handleChangeName}
+                        onChange={handleChangeName}
                         placeholder="The title of the book"
-                        value={this.state.name}
+                        value={name}
                         autoFocus
                         />
                     </Form.Group>
@@ -65,24 +57,23 @@ export default class BookUpdate extends React.Component {
                     >
                         <Form.Label>Description</Form.Label>
                         <Form.Control
-                        onChange={this.handleChangeDescription}
+                        onChange={handleChangeDescription}
                         as="textarea" rows={3}
                         placeholder="Describe the book (optional)"
-                        value={this.state.description}
+                        value={description}
                         />
                     </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={this.handleClose}>
+                    <Button variant="secondary" onClick={handleClose}>
                     Close
                     </Button>
-                    <Button variant="primary" onClick={() => this.handleUpdateBook(this.state.id, this.state.name, this.state.description)}>
+                    <Button variant="primary" onClick={() => handleUpdateBook()}>
                     Update
                     </Button>
                 </Modal.Footer>
             </Modal>
         </>
         )
-    }
 }
