@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { MyBooksContext } from '../BookList';
 
 export default function BookAdd(props) {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [show, setShow] = useState(false);
+
+    const bookContext = useContext(MyBooksContext);
 
     function handleClose(){
         console.log('handleClose');
@@ -27,7 +30,8 @@ export default function BookAdd(props) {
     }
 
     function handleSubmit() {
-            props.onAdd(name, description);
+            //props.onAdd(name, description);
+            bookContext.handleAddBook(name, description);
             handleClose();
     }
 

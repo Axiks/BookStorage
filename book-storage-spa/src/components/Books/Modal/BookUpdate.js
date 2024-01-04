@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { MyBooksContext } from '../BookList';
 
 export default function BookUpdate(props) {
     const [name, setName] = useState(props.name);
     const [description, setDescription] = useState(props.description);
     const [show, setShow] = useState(false);
+
+    const bookContext = useContext(MyBooksContext);
 
     function handleClose(){
         console.log('handleClose');
@@ -27,7 +30,7 @@ export default function BookUpdate(props) {
     }
 
     function handleUpdateBook(){
-        props.onUpdate(props.id, name, description)       
+        bookContext.handleUpdateBook(props.id, name, description);  
         handleClose();
     }
 

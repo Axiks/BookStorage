@@ -3,6 +3,9 @@ version: '3.4'
 networks:
   bookstorage-dev-net:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.42.0.0/16
 
 services:
   bookstorage.api:
@@ -15,7 +18,8 @@ services:
       context: .
       dockerfile: BookStorage.API/Dockerfile
     networks:
-      - bookstorage-dev-net
+        bookstorage-dev-net:
+            ipv4_address: 172.42.0.5
 
   bookstorage.postgres_db:
     image: postgres:latest
@@ -42,6 +46,15 @@ services:
     restart: always
     networks:
       - bookstorage-dev-net
+
+#  bookstorage.tunnel.api:
+#    image: cloudflare/cloudflared
+#    restart: unless-stopped
+#    command: tunnel run
+#    environment:
+#      - TUNNEL_TOKEN=${TUNEL_TOKEN}
+#    networks:
+#      - bookstorage-dev-net
 
 volumes: 
   db_volume:

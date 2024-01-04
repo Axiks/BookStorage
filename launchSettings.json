@@ -4,7 +4,9 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "bookstorage.api": "StartDebugging"
+        "bookstorage.api": "StartDebugging",
+        "bookstorage.postgres_db": "StartWithoutDebugging",
+        "bookstorage.react-spa": "StartWithoutDebugging"
       }
     }
   }

@@ -1,8 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 
-import BookList from './Books/BookList'
-
+import BookPage from './BookPage';
 import '../App.css';
 
 function App() {
@@ -14,7 +13,7 @@ function App() {
         </Container>
       </Navbar>
       <Container>
-            <BookList />
+            <BookPage />
       </Container>
     </div>
   );

@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import axios from 'axios';
 import BookCard from './BookCard';
 import Stack from 'react-bootstrap/Stack';
 import BookAdd from './Modal/BookAdd';
 import Container from 'react-bootstrap/esm/Container';
 
+export const MyBooksContext = createContext("");
 
-export default function BookList() {
-  const [books, setBooks] = useState([]);
+export default function BookList(props) {
+  console.log('props')
+  console.log(props)
+
+  const [books, setBooks] = useState(props.books);
 
   useEffect(() => {
-    axios.get(`http://localhost:85/api/storage`)
-    .then(res => {
-      const books = res.data;
-      setBooks(books);
-    })
-  });
+      setBooks(props.books);
+  },[]);
 
   function handleAddBook(name, description){            
-    axios.post(`http://localhost:85/api/storage`, { 
+    axios.post(`${process.env.REACT_APP_API_DOMAIN}/api/storage`, { 
       name: name,
       description: description
      })
@@ -34,7 +34,7 @@ export default function BookList() {
   }
 
   function handleUpdateBook(bookId, name, description){            
-    axios.put(`http://localhost:85/api/storage/${bookId}`, { 
+    axios.put(`${process.env.REACT_APP_API_DOMAIN}/api/storage/${bookId}`, { 
       name: name,
       description: description
      })
@@ -51,7 +51,7 @@ export default function BookList() {
   }
 
   function handleDeleteBook(bookId){      
-    axios.delete(`http://localhost:85/api/storage/${bookId}`)
+    axios.delete(`${process.env.REACT_APP_API_DOMAIN}/api/storage/${bookId}`)
       .then(res => {
         console.log(`Delete btn press for id: ${bookId}`)
         console.log(res);
@@ -67,15 +67,17 @@ export default function BookList() {
   }
 
   return(
-    <Container>
-      <div style={{marginTop: 1 + 'em'}}/>
-      <BookAdd onAdd={handleAddBook} />
-      <div style={{marginTop: 1 + 'em'}}/>
-      <Stack direction="horizontal" gap={3}>
-          {books.map((book) => {
-              return <BookCard key={book.id} id={book.id} name={book.name} description={book.description} onDelete={handleDeleteBook} onUpdate={handleUpdateBook} />
-          })}
-      </Stack>
-    </Container>
+    <MyBooksContext.Provider value={{ handleAddBook, handleUpdateBook, handleDeleteBook }}>
+      <Container>
+        <div style={{marginTop: 1 + 'em'}}/>
+        <BookAdd />
+        <div style={{marginTop: 1 + 'em'}}/>
+        <Stack direction="horizontal" gap={3}>
+            {books.map((book) => {
+                return <BookCard key={book.id} id={book.id} name={book.name} description={book.description}  />
+            })}
+        </Stack>
+      </Container>
+    </MyBooksContext.Provider>
   );
 }

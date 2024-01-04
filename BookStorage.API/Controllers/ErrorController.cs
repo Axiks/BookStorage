@@ -1,8 +1,6 @@
 ﻿using BookStorage.Core.Helpers;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace BookStorage.API.Controllers
 {
