@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useState, createContext, useLayoutEffect } from 'react';
 import axios from 'axios';
 import BookCard from './BookCard';
 import Stack from 'react-bootstrap/Stack';
@@ -8,13 +8,16 @@ import Container from 'react-bootstrap/esm/Container';
 export const MyBooksContext = createContext("");
 
 export default function BookList(props) {
-  console.log('props')
-  console.log(props)
+  const [books, setBooks] = useState([]);
 
-  const [books, setBooks] = useState(props.books);
-
-  useEffect(() => {
-      setBooks(props.books);
+  useLayoutEffect(() => {
+    axios.get(`${process.env.REACT_APP_API_DOMAIN}/api/storage`)
+    .then(res => {
+      const books = res.data;
+      setBooks(books);
+      console.log('res')
+      console.log(books)
+    })
   },[]);
 
   function handleAddBook(name, description){            
@@ -23,10 +26,7 @@ export default function BookList(props) {
       description: description
      })
     .then(res => {
-      console.log(res.data);
-      const newBookArr = books
-      newBookArr.push(res.data)
-      setBooks(newBookArr)
+      setBooks(books => [...books, res.data])
 
     }, (error) => {
       console.log(error);
